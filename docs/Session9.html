@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fa" xml:lang="fa" dir="rtl"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>session9 – درس هوش مصنوعی</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-fa4b1673990fa3f7be976ac11d59a17c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 style="text-align: center; font-size: 2.4rem;" class="title display-7">
+جلسه ۹: 📊 دیتا، تحلیل دیتا و الگوریتم‌های بنیادین (Data Science &amp; Analytics)
+</h1></header>
+
+
+
+
+<div style="text-align: center; margin-top: 2rem;">
+
+<h2 style="font-size: 1.6rem; margin-top: 1rem;" class="anchored">
+تحلیل عمیق ماهیت داده، چرخه‌ی عمر (Lifecycle)، تمیزسازی، انواع داده و روش‌های آماری بنیادین در هوش مصنوعی
+</h2>
+<p style="color: var(--color-text-muted); font-size: 1.2rem; max-width: 900px; margin: 1rem auto; line-height: 1.9;">
+این جلسه به قلب علوم هوش مصنوعی، یعنی <strong>داده (Data)</strong> می‌پردازد. ما چرخه‌ی عمر داده (از تولید تا استفاده)، اصول تحلیل اکتشافی، روش‌های آماری کلیدی و چگونگی آماده‌سازی داده برای مدل‌های پیچیده هوش مصنوعی را با جزئیات فنی بررسی خواهیم کرد.
+</p>
+<hr style="width: 60%; margin: 2rem auto;">
+</div>
+<section class="section-card">
+<h3 id="section-1" class="anchored">
+۱. بخش اول: تعریف و ماهیت داده (Data) در عصر دیجیتال
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+داده، در ساده‌ترین تعریف، مجموعه‌ای از حقایق، ارقام، مشاهده‌ها یا اطلاعاتی است که در قالب رسمی ثبت شده‌اند و می‌توانند برای پردازش یا تحلیل به کار روند. در حوزه هوش مصنوعی، داده <strong>ماده اولیه</strong> و حیاتی‌ترین دارایی است.
+</p>
+<h4 class="anchored">
+۱.۱. سلسله مراتب داده (Data Hierarchy)
+</h4>
+<p>
+داده را می‌توان در سطوح مختلف سازماندهی کرد:
+</p>
+<ul>
+<li>
+<strong>بیت (Bit):</strong> کوچک‌ترین واحد (۰ یا ۱).
+</li>
+<li>
+<strong>بایت (Byte):</strong> مجموعه‌ای از بیت‌ها (۸ بیت).
+</li>
+<li>
+<strong>فیلد (Field / Column):</strong> یک خصوصیت خاص (مانند سن).
+</li>
+<li>
+<strong>رکورد (Record / Row):</strong> مجموعه‌ای از فیلدها که یک موجودیت را توصیف می‌کنند.
+</li>
+<li>
+<strong>فایل (File / Table):</strong> مجموعه‌ای از رکوردها.
+</li>
+<li>
+<strong>پایگاه داده (Database):</strong> مجموعه‌ای سازمان‌یافته از فایل‌ها.
+</li>
+</ul>
+<h4 class="anchored">
+۱.۲. تمایز داده، اطلاعات، دانش و خرد
+</h4>
+<p>
+این مفاهیم اغلب در سلسله مراتب <strong>DIKW (Data-Information-Knowledge-Wisdom)</strong> قرار می‌گیرند:
+</p>
+<ul>
+<li>
+<strong>داده (Data):</strong> حقایق خام و بی‌ساختار (مثلاً: <code>13:30</code>, <code>25°C</code>).
+</li>
+<li>
+<strong>اطلاعات (Information):</strong> داده‌های پردازش‌شده و دارای زمینه (مثلاً: «ساعت ۱:۳۰ بعدازظهر، دمای حسگر ۲۵ درجه بوده است»).
+</li>
+<li>
+<strong>دانش (Knowledge):</strong> درک الگوها و زمینه‌های اطلاعات (مثلاً: «بر اساس این دما، سیستم تهویه باید روشن شود»).
+</li>
+<li>
+<strong>خرد (Wisdom):</strong> توانایی اعمال دانش در شرایط جدید (مثلاً: «اگر این الگو در طول یک ماه تکرار شود، احتمالاً نیاز به ارتقاء سیستم خنک‌کننده داریم»).
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-2" class="anchored">
+۲. بخش دوم: چرخه عمر داده (Data Lifecycle)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+داده‌ها مسیری را از لحظه تولید تا آرشیو یا حذف طی می‌کنند. درک این چرخه برای <strong>حکمرانی داده (Data Governance)</strong> و تضمین کیفیت حیاتی است.
+</p>
+<p><img src="S9-2.jpg"></p>
+<h4 class="anchored">
+۲.۱. مراحل اصلی چرخه عمر داده
+</h4>
+<dl>
+<dt>
+۱. تولید (Creation / Acquisition)
+</dt>
+<dd>
+<p>
+داده‌ها از طریق حسگرها، فرم‌های ورودی، لاگ‌های سیستمی، وب‌اسکرپینگ یا APIها جمع‌آوری می‌شوند. در این مرحله، کیفیت و منبع داده (Source of Truth) تعیین می‌شود.
+</p>
+</dd>
+<dt>
+۲. ذخیره‌سازی (Storage)
+</dt>
+<dd>
+<p>
+داده‌ها باید در پایگاه‌های داده (SQL, NoSQL)، دریاچه‌های داده (Data Lakes) یا انبارهای داده (Data Warehouses) ذخیره شوند. انتخاب ساختار ذخیره‌سازی به <strong>حجم (Volume)</strong>، <strong>سرعت (Velocity)</strong> و <strong>تنوع (Variety)</strong> داده بستگی دارد.
+</p>
+</dd>
+<dt>
+۳. استفاده و تحلیل (Usage / Analysis)
+</dt>
+<dd>
+<p>
+داده‌ها برای مدل‌سازی، گزارش‌گیری و هوش تجاری (BI) استفاده می‌شوند. این مرحله شامل <strong>تحلیل توصیفی (Descriptive)</strong>، <strong>پیش‌بینانه (Predictive)</strong> و <strong>تجویزی (Prescriptive)</strong> است.
+</p>
+</dd>
+<dt>
+۴. آرشیو و حذف (Archive / Destruction)
+</dt>
+<dd>
+<p>
+پس از اتمام استفاده فعال، داده‌ها باید بر اساس قوانین حریم خصوصی (مانند GDPR) یا آرشیو شوند یا به‌طور ایمن از بین بروند.
+</p>
+</dd>
+</dl>
+</section>
+<section class="section-card">
+<h3 id="section-3" class="anchored">
+۳. بخش سوم: انواع داده در هوش مصنوعی (AI Data Types)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+نحوه برخورد یک مدل هوش مصنوعی با داده، کاملاً به نوع آن داده بستگی دارد. ما داده‌ها را بر اساس ساختار و مقیاس اندازه‌گیری طبقه‌بندی می‌کنیم.
+</p>
+<h4 class="anchored">
+۳.۱. طبقه‌بندی بر اساس ساختار (Structure)
+</h4>
+<ul>
+<li>
+<strong>داده‌های ساختاریافته (Structured Data):</strong> داده‌هایی که به‌طور کامل در قالب جدول (مانند فایل‌های CSV یا جداول SQL) سازمان‌دهی شده‌اند. این داده‌ها ساده‌ترین نوع برای تحلیل و مدل‌سازی هستند.
+</li>
+<li>
+<strong>داده‌های نیمه‌ساختاریافته (Semi-Structured Data):</strong> داده‌هایی که فاقد شمای سفت و سخت جدول هستند، اما ساختار سلسله مراتبی (Hierarchical) دارند (مانند فایل‌های <strong>JSON</strong> یا <strong>XML</strong>).
+</li>
+<li>
+<strong>داده‌های بدون ساختار (Unstructured Data):</strong> داده‌های خام که ساختار داخلی ندارند و بخش عمده داده‌های جهان (حدود ۸۰٪) را تشکیل می‌دهند (مانند متون، تصاویر، ویدیوها، فایل‌های صوتی).
+</li>
+</ul>
+<h4 class="anchored">
+۳.۲. طبقه‌بندی بر اساس مقیاس اندازه‌گیری (Measurement Scales)
+</h4>
+<dl>
+<dt>
+داده‌های کیفی/گسسته (Qualitative / Discrete)
+</dt>
+<dd>
+<ul>
+<li>
+<strong>اسمی (Nominal):</strong> صرفاً برای نام‌گذاری و دسته‌بندی استفاده می‌شوند، بدون ترتیب معنایی (مانند: رنگ چشم، جنسیت).
+</li>
+<li>
+<strong>ترتیبی (Ordinal):</strong> دسته‌بندی دارند و ترتیب معنایی مهم است، اما فاصله بین مقادیر معنای مشخصی ندارد (مانند: رتبه‌های نظرسنجی - خوب، متوسط، بد).
+</li>
+</ul>
+</dd>
+<dt>
+داده‌های کمی/پیوسته (Quantitative / Continuous)
+</dt>
+<dd>
+<ul>
+<li>
+<strong>فاصله‌ای (Interval):</strong> ترتیب و فواصل معنا دارند، اما نقطه صفر مطلق وجود ندارد (مانند: دما بر حسب سلسیوس).
+</li>
+<li>
+<strong>نسبی (Ratio):</strong> بالاترین سطح اندازه‌گیری. ترتیب، فواصل و نقطه صفر مطلق معنا دارند (مانند: سن، درآمد، ارتفاع).
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+<section class="section-card">
+<h3 id="section-4" class="anchored">
+۴. بخش چهارم: تمیزسازی داده (Data Cleaning) و کیفیت (Quality)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+<strong>“Garbage In, Garbage Out”</strong> — اگر داده‌های ورودی کیفیت لازم را نداشته باشند، پیشرفته‌ترین مدل‌های هوش مصنوعی نیز نتایج معتبری ارائه نخواهند داد.
+</p>
+<h4 class="anchored">
+۴.۱. ابعاد کیفیت داده
+</h4>
+<ul>
+<li>
+<strong>صحت (Accuracy):</strong> داده چقدر به واقعیت نزدیک است؟ (مثلاً: آیا سن ثبت شده درست است؟)
+</li>
+<li>
+<strong>کامل بودن (Completeness):</strong> آیا فیلدهای ضروری حاوی مقادیر هستند؟ (مثلاً: آیا همهٔ مشتریان آدرس دارند؟)
+</li>
+<li>
+<strong>سازگاری (Consistency):</strong> آیا مقادیر در سیستم‌های مختلف با هم تضاد ندارند؟ (مثلاً: آیا تاریخ تولد با سن همخوانی دارد؟)
+</li>
+<li>
+<strong>به‌موقع بودن (Timeliness):</strong> آیا داده‌ها به اندازه کافی جدید هستند؟ (مثلاً: استفاده از داده‌های قدیمی بازار سهام).
+</li>
+</ul>
+<h4 class="anchored">
+۴.۲. مدیریت داده‌های گمشده (Missing Data)
+</h4>
+<p>
+مقادیر گمشده (<code>NaN</code> یا <code>Null</code>) باید مدیریت شوند:
+</p>
+<dl>
+<dt>
+حذف (Deletion)
+</dt>
+<dd>
+<p>
+اگر تعداد رکوردهای گمشده کم باشد، می‌توان رکوردها یا ستون‌های دارای مقادیر گمشده را حذف کرد. (مناسب زمانی که کمتر از ۵٪ داده‌ها گمشده باشد).
+</p>
+</dd>
+<dt>
+تخصیص (Imputation)
+</dt>
+<dd>
+<p>
+جایگزینی مقادیر گمشده با یک تخمین. روش‌های متداول شامل جایگزینی با <strong>میانگین (Mean)</strong>، <strong>میانه (Median)</strong> یا <strong>مد (Mode)</strong> برای داده‌های عددی و استفاده از مدل‌های پیش‌بینی (مانند KNN Imputer) برای تخمین مقادیر.
+</p>
+</dd>
+</dl>
+<h5 style="margin-top: 1rem;" class="anchored">
+شبه‌کد تخصیص داده با میانگین در پایتون
+</h5>
+<pre>    <code class="language-python">
+      # تخصیص داده گمشده در ستون 'Age' با استفاده از میانه
+
+      median_age = data['Age'].median()
+      data['Age'].fillna(median_age, inplace=True)
+    </code>
+  </pre>
+</section>
+<section class="section-card">
+<h3 id="section-5" class="anchored">
+۵. بخش پنجم: تبدیل و نرمال‌سازی داده (Transformation &amp; Normalization)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+پس از تمیزسازی، داده‌ها باید برای مدل‌ها آماده شوند. این فرآیند اغلب شامل مقیاس‌بندی و تبدیل داده‌های کیفی به کمی است.
+</p>
+<h4 class="anchored">
+۵.۱. کدگذاری متغیرهای دسته‌ای (Encoding Categorical Variables)
+</h4>
+<dl>
+<dt>
+کدگذاری یک‌داغ (One-Hot Encoding)
+</dt>
+<dd>
+<p>
+مناسب برای متغیرهای <strong>اسمی (Nominal)</strong>. هر دسته به یک ستون دودویی (۰ یا ۱) تبدیل می‌شود. این کار باعث می‌شود مدل اشتباهاً ترتیبی را برای دسته‌ها در نظر نگیرد.
+</p>
+</dd>
+<dt>
+کدگذاری برچسبی (Label Encoding)
+</dt>
+<dd>
+<p>
+مناسب برای متغیرهای <strong>ترتیبی (Ordinal)</strong>. دسته‌ها به مقادیر عددی (۱، ۲، ۳، …) نگاشت می‌شوند. این کار ترتیب معنایی را حفظ می‌کند.
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۵.۲. مقیاس‌بندی (Scaling) و نرمال‌سازی (Normalization)
+</h4>
+<p>
+بسیاری از الگوریتم‌های هوش مصنوعی (مانند KNN یا شبکه‌های عصبی) که از فاصله اقلیدسی استفاده می‌کنند، به مقیاس‌بندی حساس هستند.
+</p>
+<dl>
+<dt>
+نرمال‌سازی (Min-Max Normalization)
+</dt>
+<dd>
+<p>
+مقادیر را به بازه‌ای کوچک (معمولاً <span class="math inline">\([0, 1]\)</span>) نگاشت می‌کند. برای داده‌هایی که توزیع نرمال ندارند مناسب است. <br> <span class="math display">\[
+        X_{norm} = \frac{X - X_{min}}{X_{max} - X_{min}}
+        \]</span>
+</p>
+</dd>
+<dt>
+استانداردسازی (Standardization / Z-Score Scaling)
+</dt>
+<dd>
+<p>
+مقادیر را به گونه‌ای تبدیل می‌کند که میانگین <span class="math inline">\((\mu)\)</span> صفر و انحراف معیار <span class="math inline">\((\sigma)\)</span> یک شود. برای داده‌هایی که دارای توزیع نزدیک به نرمال هستند، ترجیح داده می‌شود. <br> <span class="math display">\[
+        X_{std} = \frac{X - \mu}{\sigma}
+        \]</span>
+</p>
+</dd>
+</dl>
+</section>
+<section class="section-card">
+<h3 id="section-6" class="anchored">
+۶. بخش ششم: تحلیل اکتشافی داده (Exploratory Data Analysis - EDA)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+EDA فرآیند حیاتی درک ساختار و الگوهای داده قبل از مدل‌سازی است. هدف اصلی EDA، کشف ناهنجاری‌ها، روابط پنهان و آماده‌سازی زمینه‌ی مدل‌سازی است.
+</p>
+<h4 class="anchored">
+۶.۱. آمار توصیفی (Descriptive Statistics)
+</h4>
+<dl>
+<dt>
+اندازه‌گیری‌های مرکزی (Measures of Central Tendency)
+</dt>
+<dd>
+<ul>
+<li>
+<strong>میانگین (Mean - <span class="math inline">\(\mu\)</span>):</strong> مجموع مقادیر تقسیم بر تعداد (حساس به داده‌های پرت).
+</li>
+<li>
+<strong>میانه (Median):</strong> مقدار میانی در یک مجموعه مرتب‌شده (مقاوم در برابر داده‌های پرت).
+</li>
+<li>
+<strong>مد (Mode):</strong> مقداری که بیشترین تکرار را دارد.
+</li>
+</ul>
+</dd>
+<dt>
+اندازه‌گیری‌های پراکندگی (Measures of Dispersion)
+</dt>
+<dd>
+<ul>
+<li>
+<strong>دامنه (Range):</strong> تفاضل بزرگ‌ترین و کوچک‌ترین مقدار.
+</li>
+<li>
+<strong>واریانس (Variance - <span class="math inline">\(\sigma^2\)</span>):</strong> میانگین مجذور اختلاف هر مقدار با میانگین.
+</li>
+<li>
+<strong>انحراف معیار (Standard Deviation - <span class="math inline">\(\sigma\)</span>):</strong> ریشه دوم واریانس (معیار اصلی پراکندگی).
+</li>
+</ul>
+</dd>
+</dl>
+<p><span class="math display">\[
+  \sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (X_i - \mu)^2}
+  \]</span></p>
+<h4 class="anchored">
+۶.۲. تجسم داده (Data Visualization)
+</h4>
+<p>
+تصاویر می‌توانند الگوها و ناهنجاری‌هایی را که با اعداد قابل مشاهده نیستند، آشکار کنند.
+</p>
+<ul>
+<li>
+<strong>نمودار جعبه‌ای (Box Plot):</strong> برای شناسایی داده‌های پرت (Outliers) و توزیع چارک‌ها (Quartiles).
+</li>
+<li>
+<strong>هیستوگرام (Histogram):</strong> برای مشاهده شکل توزیع یک متغیر پیوسته.
+</li>
+<li>
+<strong>نمودار پراکندگی (Scatter Plot):</strong> برای مشاهده رابطه بین دو متغیر.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-7" class="anchored">
+۷. بخش هفتم: داده‌های پرت (Outliers) و مدیریت آن‌ها
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+داده‌های پرت، مقادیری هستند که به طور قابل ملاحظه‌ای از سایر مقادیر موجود در مجموعه داده منحرف شده‌اند و می‌توانند به‌طور جدی نتایج مدل‌های هوش مصنوعی (به‌ویژه رگرسیون خطی) را تحت تأثیر قرار دهند.
+</p>
+<h4 class="anchored">
+۷.۱. روش‌های شناسایی داده‌های پرت
+</h4>
+<dl>
+<dt>
+روش IQR (Interquartile Range)
+</dt>
+<dd>
+<p>
+IQR فاصله بین چارک سوم (<span class="math inline">\(Q_3\)</span>) و چارک اول (<span class="math inline">\(Q_1\)</span>) است. داده‌های پرت، مقادیری هستند که: <span class="math display">\[
+        \text{Value} &gt; Q_3 + 1.5 \times \text{IQR} \quad \text{OR} \quad \text{Value} &lt; Q_1 - 1.5 \times \text{IQR}
+        \]</span> این روش در برابر توزیع‌های غیرنرمال مقاوم است.
+</p>
+</dd>
+<dt>
+روش انحراف معیار (Standard Deviation Method)
+</dt>
+<dd>
+<p>
+در توزیع‌های نرمال، اغلب مقادیری که بیش از <span class="math inline">\(2\sigma\)</span> یا <span class="math inline">\(3\sigma\)</span> (دو یا سه انحراف معیار) از میانگین دور باشند، به‌عنوان داده پرت در نظر گرفته می‌شوند.
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۷.۲. مدیریت داده‌های پرت
+</h4>
+<ul>
+<li>
+<strong>حذف (Deletion):</strong> اگر مطمئن هستیم که داده پرت ناشی از خطای اندازه‌گیری است (درصد کم).
+</li>
+<li>
+<strong>حدگذاری (Capping / Winsorizing):</strong> جایگزینی مقادیر پرت با نزدیک‌ترین مقدار غیر پرت (مثلاً، تمام مقادیر بالاتر از <span class="math inline">\(Q_3 + 1.5 \times \text{IQR}\)</span> با همین مقدار جایگزین می‌شوند).
+</li>
+<li>
+<strong>تبدیل (Transformation):</strong> استفاده از تبدیل‌های لگاریتمی برای کاهش تأثیر مقادیر بسیار بزرگ.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-8" class="anchored">
+۸. بخش هشتم: ارتباط (Correlation) و هم‌خطی (Collinearity)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+درک چگونگی ارتباط متغیرها با یکدیگر برای انتخاب بهترین ویژگی‌ها (Features) برای مدل‌سازی حیاتی است.
+</p>
+<h4 class="anchored">
+۸.۱. ضریب همبستگی پیرسون (Pearson Correlation Coefficient)
+</h4>
+<p>
+این ضریب (<span class="math inline">\(r\)</span>) شدت و جهت رابطه <strong>خطی</strong> بین دو متغیر پیوسته (<span class="math inline">\(X\)</span> و <span class="math inline">\(Y\)</span>) را اندازه‌گیری می‌کند.
+</p>
+<p><span class="math display">\[
+  r = \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^{n} (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}}
+  \]</span></p>
+<p>
+مقدار <span class="math inline">\(r\)</span> بین <span class="math inline">\([-1, +1]\)</span> است. <span class="math inline">\(r \approx +1\)</span> به معنای رابطه خطی مثبت قوی، <span class="math inline">\(r \approx -1\)</span> رابطه خطی منفی قوی، و <span class="math inline">\(r \approx 0\)</span> به معنای عدم رابطه خطی است.
+</p>
+<p><img src="S9-8-1.jpg"></p>
+<h4 class="anchored">
+۸.۲. هم‌خطی (Multicollinearity)
+</h4>
+<p>
+هم‌خطی پدیده‌ای است که در آن، دو یا چند متغیر مستقل (Features) در یک مدل رگرسیون، با یکدیگر <strong>ارتباط خطی قوی</strong> دارند.
+</p>
+<ul>
+<li>
+<strong>مشکلات:</strong> هم‌خطی می‌تواند تخمین‌های مدل (ضرایب رگرسیون) را ناپایدار و غیرقابل تفسیر کند.
+</li>
+<li>
+<strong>تشخیص:</strong> استفاده از <strong>فاکتور تورم واریانس (Variance Inflation Factor - VIF)</strong>. اگر <span class="math inline">\(VIF &gt; 5\)</span> یا <span class="math inline">\(VIF &gt; 10\)</span> باشد، هم‌خطی جدی است. <span class="math display">\[
+      VIF_i = \frac{1}{1 - R_i^2}
+      \]</span> (که در آن <span class="math inline">\(R_i^2\)</span> ضریب تعیین در رگرسیون متغیر <span class="math inline">\(X_i\)</span> بر سایر متغیرهای مستقل است.)
+</li>
+<li>
+<strong>راه‌حل:</strong> حذف یکی از متغیرهای مرتبط یا ادغام آن‌ها.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-9" class="anchored">
+۹. بخش نهم: نمونه‌گیری (Sampling) و توزیع داده
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+اغلب نمی‌توانیم با کل جمعیت (Population) کار کنیم، بنابراین نیاز به انتخاب یک زیرمجموعه (Sample) داریم که نماینده کل جمعیت باشد.
+</p>
+<h4 class="anchored">
+۹.۱. اصول نمونه‌گیری
+</h4>
+<dl>
+<dt>
+نمونه‌گیری تصادفی ساده (Simple Random Sampling)
+</dt>
+<dd>
+<p>
+هر عضو جمعیت، شانس برابری برای انتخاب دارد. این روش بهترین راه برای به حداقل رساندن سوگیری (Bias) است.
+</p>
+</dd>
+<dt>
+نمونه‌گیری طبقه‌ای (Stratified Sampling)
+</dt>
+<dd>
+<p>
+جمعیت به زیرگروه‌های (Strata) همگن تقسیم می‌شود و سپس نمونه‌گیری تصادفی از هر زیرگروه به نسبت اندازه آن انجام می‌شود. (مثلاً: اطمینان از اینکه نسبت جنسیتی در نمونه حفظ شود).
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۹.۲. قضیه حد مرکزی (Central Limit Theorem - CLT)
+</h4>
+<p>
+CLT یکی از بنیادین‌ترین قضایای آمار است: اگر اندازه‌ی نمونه‌ها (<span class="math inline">\(\mathbf{n}\)</span>) به اندازه‌ی کافی بزرگ باشد (<span class="math inline">\(\mathbf{n \geq 30}\)</span>)، توزیع نمونه‌ای میانگین‌ها، مستقل از شکل توزیع جمعیت اصلی، تقریباً <strong>توزیع نرمال (Normal Distribution)</strong> خواهد داشت.
+</p>
+<p>
+این قضیه پایه و اساس بسیاری از تست‌های فرضیه (Hypothesis Testing) و فواصل اطمینان (Confidence Intervals) در تحلیل داده است.
+</p>
+<p><span class="math display">\[
+  \text{Sample Mean Distribution} \sim \mathcal{N} \left( \mu, \frac{\sigma^2}{n} \right)
+  \]</span></p>
+</section>
+<section class="section-card">
+<h3 id="section-10" class="anchored">
+۱۰. بخش دهم: آمار استنباطی (Inferential Statistics) و تست فرضیه
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+آمار استنباطی به ما اجازه می‌دهد تا بر اساس اطلاعات نمونه، نتیجه‌گیری‌هایی در مورد کل جمعیت داشته باشیم.
+</p>
+<h4 class="anchored">
+۱۰.۱. تست فرضیه (Hypothesis Testing)
+</h4>
+<p>
+فرآیندی سیستماتیک برای تصمیم‌گیری در مورد یک پارامتر جمعیتی بر اساس شواهد نمونه‌ای.
+</p>
+<dl>
+<dt>
+فرضیه صفر (<span class="math inline">\(H_0\)</span> - Null Hypothesis)
+</dt>
+<dd>
+<p>
+بیانیه‌ای مبنی بر عدم وجود اثر یا عدم تفاوت (همیشه به دنبال رد آن هستیم). مثلاً: «میانگین درآمد دو گروه برابر است.»
+</p>
+</dd>
+<dt>
+فرضیه جایگزین (<span class="math inline">\(H_a\)</span> - Alternative Hypothesis)
+</dt>
+<dd>
+<p>
+بیانیه‌ای مبنی بر وجود اثر یا تفاوت. مثلاً: «میانگین درآمد دو گروه برابر نیست.»
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۱۰.۲. مقدار p-Value و سطح معناداری (<span class="math inline">\(\alpha\)</span>)
+</h4>
+<ul>
+<li>
+<strong>سطح معناداری (<span class="math inline">\(\alpha\)</span>):</strong> حداکثر ریسک مجاز برای رد نادرست <span class="math inline">\(H_0\)</span> (خطای نوع اول). معمولاً <span class="math inline">\(\alpha = 0.05\)</span> است.
+</li>
+<li>
+<strong>p-Value:</strong> احتمال مشاهده داده‌های نمونه‌ای (یا داده‌های افراطی‌تر) در صورتی که <span class="math inline">\(H_0\)</span> درست باشد.
+</li>
+<li>
+<strong>قاعده تصمیم:</strong> اگر <span class="math inline">\(p\text{-Value} &lt; \alpha\)</span> باشد، <span class="math inline">\(H_0\)</span> را رد می‌کنیم و می‌پذیریم که تفاوت <strong>معنادار آماری (Statistically Significant)</strong> است.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-11" class="anchored">
+۱۱. بخش یازدهم: رگرسیون خطی (Linear Regression) - اولین مدل تحلیلی
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+رگرسیون خطی یک الگوریتم پایه و قابل تفسیر برای مدل‌سازی رابطه خطی بین یک متغیر وابسته (هدف) و یک یا چند متغیر مستقل (پیش‌بین) است.
+</p>
+<h4 class="anchored">
+۱۱.۱. معادله رگرسیون خطی ساده
+</h4>
+<p>
+در ساده‌ترین شکل، یک متغیر هدف (<span class="math inline">\(Y\)</span>) را با یک متغیر پیش‌بین (<span class="math inline">\(X\)</span>) مدل می‌کند:
+</p>
+<p><span class="math display">\[
+  Y = \beta_0 + \beta_1 X + \epsilon
+  \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\mathbf{Y}\)</span>: متغیر وابسته (هدف).
+</li>
+<li>
+<span class="math inline">\(\mathbf{X}\)</span>: متغیر مستقل (پیش‌بین).
+</li>
+<li>
+<span class="math inline">\(\mathbf{\beta_0}\)</span>: عرض از مبدأ (Intercept) - مقدار <span class="math inline">\(Y\)</span> وقتی <span class="math inline">\(X=0\)</span>.
+</li>
+<li>
+<span class="math inline">\(\mathbf{\beta_1}\)</span>: شیب (Slope) - میزان تغییر <span class="math inline">\(Y\)</span> به ازای هر واحد تغییر در <span class="math inline">\(X\)</span>.
+</li>
+<li>
+<span class="math inline">\(\mathbf{\epsilon}\)</span>: خطای مدل (Error Term).
+</li>
+</ul>
+<h4 class="anchored">
+۱۱.۲. روش کمترین مربعات معمولی (Ordinary Least Squares - OLS)
+</h4>
+<p>
+OLS روشی است که برای یافتن بهترین خط رگرسیون (یعنی تخمین ضرایب <span class="math inline">\(\beta_0\)</span> و <span class="math inline">\(\beta_1\)</span>) استفاده می‌شود. هدف OLS <strong>به حداقل رساندن مجموع مربعات خطاهای باقیمانده (Sum of Squared Residuals - SSR)</strong> است:
+</p>
+<p><span class="math display">\[
+  \min \text{SSR} = \min \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \min \sum_{i=1}^{n} (Y_i - (\beta_0 + \beta_1 X_i))^2
+  \]</span></p>
+</section>
+<section class="section-card">
+<h3 id="section-12" class="anchored">
+۱۲. بخش دوازدهم: ارزیابی و مفروضات رگرسیون خطی
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+برای اینکه نتایج رگرسیون خطی معتبر باشند، باید مفروضات آماری خاصی برآورده شوند و باید عملکرد مدل را ارزیابی کنیم.
+</p>
+<h4 class="anchored">
+۱۲.۱. معیارهای ارزیابی (Goodness of Fit)
+</h4>
+<ul>
+<li>
+<strong>ضریب تعیین (<span class="math inline">\(R^2\)</span> - Coefficient of Determination):</strong> نشان می‌دهد که چه نسبتی از واریانس متغیر وابسته توسط متغیرهای مستقل توضیح داده می‌شود. <span class="math inline">\(R^2\)</span> بین <span class="math inline">\([0, 1]\)</span> است.
+</li>
+<li>
+<strong>خطای میانگین مربعات (Mean Squared Error - MSE):</strong> میانگین مجذور خطاها. واحد آن مجذور واحد هدف است.
+</li>
+<li>
+<strong>ریشه خطای میانگین مربعات (Root Mean Squared Error - RMSE):</strong> واحد آن مشابه واحد هدف است و پرکاربردترین معیار است. <span class="math display">\[
+      \text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2}
+      \]</span>
+</li>
+</ul>
+<h4 class="anchored">
+۱۲.۲. مفروضات اساسی OLS
+</h4>
+<p>
+نقض این مفروضات باعث می‌شود تخمین‌های OLS بهینه نباشند:
+</p>
+<ul>
+<li>
+<strong>خطی بودن (Linearity):</strong> رابطه بین <span class="math inline">\(X\)</span> و <span class="math inline">\(Y\)</span> باید خطی باشد.
+</li>
+<li>
+<strong>استقلال خطاها (Independence of Errors):</strong> خطاها (باقیمانده‌ها) باید از یکدیگر مستقل باشند. (نقض توسط سری‌های زمانی).
+</li>
+<li>
+<strong>همگنی واریانس (Homoscedasticity):</strong> واریانس خطاها باید در تمام سطوح <span class="math inline">\(X\)</span> ثابت باشد. (نقض توسط Heteroscedasticity).
+</li>
+<li>
+<strong>توزیع نرمال خطاها (Normality of Errors):</strong> توزیع باقیمانده‌ها باید تقریباً نرمال باشد (به دلیل CLT).
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-10" class="anchored">
+۱۰. بخش دهم: آمار استنباطی (Inferential Statistics) و تست فرضیه
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+آمار استنباطی به ما اجازه می‌دهد تا بر اساس اطلاعات نمونه، نتیجه‌گیری‌هایی در مورد کل جمعیت داشته باشیم.
+</p>
+<h4 class="anchored">
+۱۰.۱. تست فرضیه (Hypothesis Testing)
+</h4>
+<p>
+فرآیندی سیستماتیک برای تصمیم‌گیری در مورد یک پارامتر جمعیتی بر اساس شواهد نمونه‌ای.
+</p>
+<dl>
+<dt>
+فرضیه صفر (<span class="math inline">\(H_0\)</span> - Null Hypothesis)
+</dt>
+<dd>
+<p>
+بیانیه‌ای مبنی بر عدم وجود اثر یا عدم تفاوت (همیشه به دنبال رد آن هستیم). مثلاً: «میانگین درآمد دو گروه برابر است.»
+</p>
+</dd>
+<dt>
+فرضیه جایگزین (<span class="math inline">\(H_a\)</span> - Alternative Hypothesis)
+</dt>
+<dd>
+<p>
+بیانیه‌ای مبنی بر وجود اثر یا تفاوت. مثلاً: «میانگین درآمد دو گروه برابر نیست.»
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۱۰.۲. مقدار p-Value و سطح معناداری (<span class="math inline">\(\alpha\)</span>)
+</h4>
+<ul>
+<li>
+<strong>سطح معناداری (<span class="math inline">\(\alpha\)</span>):</strong> حداکثر ریسک مجاز برای رد نادرست <span class="math inline">\(H_0\)</span> (خطای نوع اول). معمولاً <span class="math inline">\(\alpha = 0.05\)</span> است.
+</li>
+<li>
+<strong>p-Value:</strong> احتمال مشاهده داده‌های نمونه‌ای (یا داده‌های افراطی‌تر) در صورتی که <span class="math inline">\(H_0\)</span> درست باشد.
+</li>
+<li>
+<strong>قاعده تصمیم:</strong> اگر <span class="math inline">\(p\text{-Value} &lt; \alpha\)</span> باشد، <span class="math inline">\(H_0\)</span> را رد می‌کنیم و می‌پذیریم که تفاوت <strong>معنادار آماری (Statistically Significant)</strong> است.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-11" class="anchored">
+۱۱. بخش یازدهم: رگرسیون خطی (Linear Regression) - اولین مدل تحلیلی
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+رگرسیون خطی یک الگوریتم پایه و قابل تفسیر برای مدل‌سازی رابطه خطی بین یک متغیر وابسته (هدف) و یک یا چند متغیر مستقل (پیش‌بین) است.
+</p>
+<h4 class="anchored">
+۱۱.۱. معادله رگرسیون خطی ساده
+</h4>
+<p>
+در ساده‌ترین شکل، یک متغیر هدف (<span class="math inline">\(Y\)</span>) را با یک متغیر پیش‌بین (<span class="math inline">\(X\)</span>) مدل می‌کند:
+</p>
+<p><span class="math display">\[
+  Y = \beta_0 + \beta_1 X + \epsilon
+  \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\mathbf{Y}\)</span>: متغیر وابسته (هدف).
+</li>
+<li>
+<span class="math inline">\(\mathbf{X}\)</span>: متغیر مستقل (پیش‌بین).
+</li>
+<li>
+<span class="math inline">\(\mathbf{\beta_0}\)</span>: عرض از مبدأ (Intercept) - مقدار <span class="math inline">\(Y\)</span> وقتی <span class="math inline">\(X=0\)</span>.
+</li>
+<li>
+<span class="math inline">\(\mathbf{\beta_1}\)</span>: شیب (Slope) - میزان تغییر <span class="math inline">\(Y\)</span> به ازای هر واحد تغییر در <span class="math inline">\(X\)</span>.
+</li>
+<li>
+<span class="math inline">\(\mathbf{\epsilon}\)</span>: خطای مدل (Error Term).
+</li>
+</ul>
+<h4 class="anchored">
+۱۱.۲. روش کمترین مربعات معمولی (Ordinary Least Squares - OLS)
+</h4>
+<p>
+OLS روشی است که برای یافتن بهترین خط رگرسیون (یعنی تخمین ضرایب <span class="math inline">\(\beta_0\)</span> و <span class="math inline">\(\beta_1\)</span>) استفاده می‌شود. هدف OLS <strong>به حداقل رساندن مجموع مربعات خطاهای باقیمانده (Sum of Squared Residuals - SSR)</strong> است:
+</p>
+<p><span class="math display">\[
+  \min \text{SSR} = \min \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \min \sum_{i=1}^{n} (Y_i - (\beta_0 + \beta_1 X_i))^2
+  \]</span></p>
+</section>
+<section class="section-card">
+<h3 id="section-12" class="anchored">
+۱۲. بخش دوازدهم: ارزیابی و مفروضات رگرسیون خطی
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+برای اینکه نتایج رگرسیون خطی معتبر باشند، باید مفروضات آماری خاصی برآورده شوند و باید عملکرد مدل را ارزیابی کنیم.
+</p>
+<h4 class="anchored">
+۱۲.۱. معیارهای ارزیابی (Goodness of Fit)
+</h4>
+<ul>
+<li>
+<strong>ضریب تعیین (<span class="math inline">\(R^2\)</span> - Coefficient of Determination):</strong> نشان می‌دهد که چه نسبتی از واریانس متغیر وابسته توسط متغیرهای مستقل توضیح داده می‌شود. <span class="math inline">\(R^2\)</span> بین <span class="math inline">\([0, 1]\)</span> است.
+</li>
+<li>
+<strong>خطای میانگین مربعات (Mean Squared Error - MSE):</strong> میانگین مجذور خطاها. واحد آن مجذور واحد هدف است.
+</li>
+<li>
+<strong>ریشه خطای میانگین مربعات (Root Mean Squared Error - RMSE):</strong> واحد آن مشابه واحد هدف است و پرکاربردترین معیار است. <span class="math display">\[
+      \text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2}
+      \]</span>
+</li>
+</ul>
+<h4 class="anchored">
+۱۲.۲. مفروضات اساسی OLS
+</h4>
+<p>
+نقض این مفروضات باعث می‌شود تخمین‌های OLS بهینه نباشند:
+</p>
+<ul>
+<li>
+<strong>خطی بودن (Linearity):</strong> رابطه بین <span class="math inline">\(X\)</span> و <span class="math inline">\(Y\)</span> باید خطی باشد.
+</li>
+<li>
+<strong>استقلال خطاها (Independence of Errors):</strong> خطاها (باقیمانده‌ها) باید از یکدیگر مستقل باشند. (نقض توسط سری‌های زمانی).
+</li>
+<li>
+<strong>همگنی واریانس (Homoscedasticity):</strong> واریانس خطاها باید در تمام سطوح <span class="math inline">\(X\)</span> ثابت باشد. (نقض توسط Heteroscedasticity).
+</li>
+<li>
+<strong>توزیع نرمال خطاها (Normality of Errors):</strong> توزیع باقیمانده‌ها باید تقریباً نرمال باشد (به دلیل CLT).
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-13" class="anchored">
+۱۳. بخش سیزدهم: داده‌های سری زمانی (Time Series Data)
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+داده‌های سری زمانی، داده‌هایی هستند که بر اساس زمان شاخص‌گذاری شده‌اند و نیازمند تحلیل‌ها و مدل‌های خاص خود هستند، چرا که استقلال مشاهدات نقض می‌شود.
+</p>
+<h4 class="anchored">
+۱۳.۱. مولفه‌های سری زمانی
+</h4>
+<dl>
+<dt>
+روند (Trend)
+</dt>
+<dd>
+<p>
+حرکت بلندمدت داده‌ها، چه صعودی و چه نزولی (مثلاً: افزایش طولانی‌مدت فروش).
+</p>
+</dd>
+<dt>
+فصلی بودن (Seasonality)
+</dt>
+<dd>
+<p>
+الگوهای تکرارشونده و منظم در دوره‌های زمانی مشخص (مانند: افزایش فروش اسباب‌بازی در ماه دسامبر).
+</p>
+</dd>
+<dt>
+باقیمانده (Residual / Noise)
+</dt>
+<dd>
+<p>
+حرکات تصادفی و غیرقابل توضیح در داده پس از حذف روند و فصلی بودن.
+</p>
+</dd>
+</dl>
+<h4 class="anchored">
+۱۳.۲. ایستایی (Stationarity)
+</h4>
+<p>
+مهم‌ترین مفهوم در سری‌های زمانی. یک سری زمانی ایستا (Stationary) است اگر میانگین، واریانس و کوواریانس آن با گذشت زمان ثابت بمانند.
+</p>
+<ul>
+<li>
+چرا مهم است؟ مدل‌های آماری سنتی (مانند ARMA) فرض می‌کنند که سری ایستا است.
+</li>
+<li>
+تبدیل به ایستایی: اگر سری ناایستا باشد، می‌توان با استفاده از تفاضل‌گیری (Differencing)، آن را ایستا کرد: <span class="math display">\[
+      \Delta Y_t = Y_t - Y_{t-1}
+      \]</span>
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-14" class="anchored">
+۱۴. بخش چهاردهم: کاهش ابعاد (Dimensionality Reduction) - PCA
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+در مجموعه داده‌های بزرگ، داشتن صدها یا هزاران ویژگی (Features) می‌تواند منجر به نفرین ابعاد (Curse of Dimensionality) شود. کاهش ابعاد، این مشکل را حل می‌کند.
+</p>
+<h4 class="anchored">
+۱۴.۱. نفرین ابعاد (Curse of Dimensionality)
+</h4>
+<p>
+وقتی تعداد ابعاد (ویژگی‌ها) افزایش می‌یابد، حجم فضای داده به قدری سریع رشد می‌کند که نقاط داده پراکنده شده و برای یادگیری ماشین، تحلیل‌ها و مدل‌سازی ناکارآمد می‌شوند.
+</p>
+<h4 class="anchored">
+۱۴.۲. تحلیل مؤلفه اصلی (Principal Component Analysis - PCA)
+</h4>
+<p>
+PCA یک تکنیک پرکاربرد برای کاهش ابعاد است که بر اساس پراکندگی (Variance) داده‌ها عمل می‌کند.
+</p>
+<ul>
+<li>
+مکانیزم: PCA داده‌ها را روی زیرفضایی با ابعاد پایین‌تر پروجکت می‌کند. این زیرفضا به گونه‌ای انتخاب می‌شود که بیشترین واریانس (اطلاعات) داده‌های اصلی را حفظ کند.
+</li>
+<li>
+مؤلفه اصلی (Principal Component - PC): هر مؤلفه اصلی یک ترکیب خطی از متغیرهای اصلی است. <span class="math display">\[
+      PC_k = \sum_{i=1}^{p} w_{ki} X_i
+      \]</span>
+</li>
+<li>
+هدف: یافتن بردارهایی (<span class="math inline">\(w\)</span>) که بیشترین اطلاعات را (بر اساس بیشترین واریانس) در خود جای دهند.
+</li>
+</ul>
+</section>
+<section class="section-card">
+<h3 id="section-15" class="anchored">
+۱۵. بخش پانزدهم: منابع آکادمیک و تمرین‌های تفصیلی
+</h3>
+<p style="color: var(--color-text-muted); font-size: 1.15rem; line-height: 1.9;">
+معرفی منابع اصلی مطالعاتی و تمرین‌های عملی سطح بالا برای پیاده‌سازی و ارزیابی علوم داده بنیادین.
+</p>
+<h4 class="anchored">
+۱۵.۱. مراجع آکادمیک کلیدی
+</h4>
+<dl>
+<dt>
+۱. آمار و تحلیل رگرسیون
+</dt>
+<dd>
+James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2013). <em>An Introduction to Statistical Learning with Applications in R.</em> (یک متن کلاسیک برای آمار و مدل‌های یادگیری.)
+</dd>
+<dt>
+۲. سری‌های زمانی
+</dt>
+<dd>
+Box, G. E. P., Jenkins, G. M., &amp; Reinsel, G. C. (1994). <em>Time Series Analysis: Forecasting and Control.</em> (متن مرجع برای مدل‌های ARIMA و سری‌های زمانی.)
+</dd>
+</dl>
+<h4 class="anchored">
+۱۵.۲. تمرین‌های پیاده‌سازی تفصیلی
+</h4>
+<dl>
+<dt>
+تمرین‌های عملی سطح بالا
+</dt>
+<dd>
+<ul>
+<li>
+پیاده‌سازی EDA کامل: انجام EDA روی یک مجموعه داده عمومی (مانند داده‌های تایتانیک) شامل محاسبه <span class="math inline">\(\mu\)</span> و <span class="math inline">\(\sigma\)</span>، ترسیم هیستوگرام‌ها و Box Plot برای شناسایی داده‌های پرت.
+</li>
+<li>
+مدل‌سازی رگرسیون: پیاده‌سازی یک مدل رگرسیون خطی ساده با استفاده از scikit-learn در پایتون، تحلیل ضریب تعیین (<span class="math inline">\(R^2\)</span>) و رسم نمودار باقیمانده‌ها (Residual Plot) برای بررسی مفروضات OLS.
+</li>
+<li>
+کاهش ابعاد با PCA: اعمال PCA روی یک مجموعه داده چند بعدی، انتخاب تعداد مؤلفه‌های اصلی بر اساس Cumulative Explained Variance (واریانس تجمعی توضیح داده شده) و تحلیل مقادیر ویژه (Eigenvalues).
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+
+
+</main></div>
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+ <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span class="footer-copyright">© 1404 - دانشگاه آزاد اسلامی واحد تهران مرکز</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="footer-professor-name">استاد : دکتر مریم حاجی اسمعیلی</span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="footer-author-name">تهیه و تنظیم: ایلیا نازمهر</span></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
